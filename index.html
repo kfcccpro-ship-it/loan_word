@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>여신(與信) 핵심 용어 해설</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+/* ===== ROOT SCALE ===== */
+html { font-size: calc(24 / 1080 * 100vh); }
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg-white:     #FFFFFF;
+  --bg-gray-50:   #F9FAFB;
+  --bg-gray-100:  #F2F4F6;
+  --text-primary:   #191F28;
+  --text-secondary: #4E5968;
+  --text-tertiary:  #8B95A1;
+  --border-default: #E5E8EB;
+  --blue-primary: #3182F6;
+  --blue-dark:    #1B64DA;
+  --blue-soft:    #EBF4FF;
+  --dark-accent:  #202632;
+  --red-soft:     #FFF1F0;
+  --red-strong:   #F04452;
+  --green-soft:   #E8FAF0;
+  --green-strong: #0AC282;
+  --amber-soft:   #FFF8E1;
+  --amber-strong: #F5A623;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --shadow-card:  0 0.125rem 0.5rem rgba(25,31,40,0.06), 0 0.0625rem 0.125rem rgba(25,31,40,0.04);
+  --shadow-float: 0 0.75rem 2rem rgba(25,31,40,0.12);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0E1116; overflow:hidden; }
+
+/* ===== STAGE & APP ===== */
+#stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+#app { width:100vw; height:100vh; overflow:hidden; position:relative; background:var(--bg-gray-50); }
+
+/* ===== SLIDE ===== */
+.slide {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  background:var(--bg-gray-50);
+  opacity:0; pointer-events:none;
+  transition:opacity 0.08s;
+  overflow:hidden;
+}
+.slide.active { opacity:1; pointer-events:all; }
+.slide.center-content { align-items:center; justify-content:center; }
+
+/* ===== SLIDE INNER ===== */
+.slide-inner {
+  padding: 3.25rem 5.25rem 1.75rem;
+  flex:1;
+  display:flex; flex-direction:column;
+  min-height:0;
+  transform-origin: top center;
+}
+.slide-inner.vcenter {
+  justify-content:center;
+  transform-origin: center center;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  position:absolute; top:0; left:0; right:0; height:0.25rem;
+  background:var(--border-default); z-index:10;
+}
+.progress-bar {
+  height:100%; background:var(--blue-primary);
+  transition:width 0.35s ease;
+  box-shadow: 0 0 12px rgba(49,130,246,0.6);
+}
+
+/* ===== NAV BAR ===== */
+.nav-bar {
+  position:absolute; bottom:0; left:0; right:0;
+  height:3.75rem;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5rem;
+  background:rgba(249,250,251,0.92);
+  backdrop-filter:blur(8px);
+  border-top:1px solid var(--border-default);
+  z-index:20;
+}
+.nav-btn {
+  width:2.75rem; height:2.75rem; border-radius:50%;
+  border:none; cursor:pointer;
+  font-size:1.5rem; font-weight:700;
+  background:var(--bg-gray-100); color:var(--text-secondary);
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.15s;
+  font-family:'Pretendard',sans-serif;
+}
+.nav-btn:hover { background:var(--blue-soft); color:var(--blue-primary); }
+.nav-btn.primary { background:var(--blue-primary); color:#fff; }
+.nav-btn.primary:hover { background:var(--blue-dark); }
+.nav-mid { display:flex; flex-direction:column; align-items:center; gap:0.2rem; cursor:pointer; }
+.nav-counter { font-size:0.875rem; font-weight:700; color:var(--text-primary); }
+.nav-section-name { font-size:0.75rem; color:var(--text-tertiary); max-width:20rem; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* ===== TOC ===== */
+.toc-overlay {
+  position:absolute; inset:0; z-index:50;
+  background:rgba(25,31,40,0.45);
+  display:none; align-items:flex-end;
+}
+.toc-overlay.open { display:flex; }
+.toc-sheet {
+  width:100%; max-height:72vh;
+  background:#fff; border-radius:1.5rem 1.5rem 0 0;
+  padding:1.5rem 3rem 2.5rem;
+  overflow-y:auto;
+  box-shadow: 0 -0.5rem 2rem rgba(25,31,40,0.18);
+}
+.toc-handle { width:2.5rem; height:0.25rem; border-radius:2px; background:var(--border-default); margin:0 auto 1.25rem; }
+.toc-title { font-size:1.25rem; font-weight:800; color:var(--text-primary); margin-bottom:1.25rem; }
+#tocList { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; }
+.toc-item {
+  padding:0.625rem 0.875rem; border-radius:var(--radius-md);
+  background:var(--bg-gray-50); border:1px solid var(--border-default);
+  cursor:pointer; font-size:0.8125rem; color:var(--text-secondary);
+  transition:all 0.15s; line-height:1.4;
+}
+.toc-item:hover { background:var(--blue-soft); color:var(--blue-primary); border-color:var(--blue-primary); }
+.toc-item.active { background:var(--blue-primary); color:#fff; border-color:var(--blue-primary); font-weight:700; }
+
+/* ===== TYPOGRAPHY ===== */
+.h1 { font-size:4rem; font-weight:800; line-height:1.22; letter-spacing:-0.0625rem; color:var(--text-primary); }
+.h2 { font-size:2.625rem; font-weight:700; line-height:1.35; letter-spacing:-0.0312rem; color:var(--text-primary); }
+.h3 { font-size:2rem; font-weight:700; line-height:1.4; color:var(--text-primary); }
+.body-text { font-size:1.75rem; line-height:1.6; color:var(--text-secondary); }
+.small-text { font-size:1.375rem; line-height:1.55; color:var(--text-tertiary); }
+.accent { color:var(--blue-primary); font-weight:800; }
+
+.eyebrow {
+  font-size:1.125rem; font-weight:800; letter-spacing:0.0625rem;
+  color:var(--blue-primary); text-transform:uppercase; margin-bottom:0.75rem;
+}
+
+/* ===== CARD ===== */
+.card {
+  background:#fff; border-radius:var(--radius-lg);
+  padding:2rem 2.25rem;
+  box-shadow:var(--shadow-card);
+  margin-bottom:1.25rem;
+}
+.card-flat {
+  background:var(--bg-gray-100); border-radius:var(--radius-lg);
+  padding:1.75rem 2.25rem; margin-bottom:1.25rem;
+}
+
+/* ===== BADGE ===== */
+.badge {
+  display:inline-flex; align-items:center; gap:0.25rem;
+  padding:0.375rem 0.875rem; border-radius:2rem;
+  font-size:1rem; font-weight:700; margin-bottom:1.25rem;
+}
+.badge-blue { background:var(--blue-soft); color:var(--blue-primary); }
+.badge-red  { background:var(--red-soft);  color:var(--red-strong); }
+.badge-green{ background:var(--green-soft);color:var(--green-strong); }
+.badge-amber{ background:var(--amber-soft);color:var(--amber-strong); }
+.badge-gray { background:var(--bg-gray-100);color:var(--text-secondary); }
+
+/* ===== TERM CARD ===== */
+.term-card {
+  display:flex; gap:1.25rem; align-items:flex-start;
+  padding:1.5rem 1.75rem; border-radius:var(--radius-lg);
+  background:#fff; box-shadow:var(--shadow-card);
+  margin-bottom:1rem;
+}
+.term-icon { font-size:2.25rem; line-height:1; flex-shrink:0; }
+.term-name { font-size:1.625rem; font-weight:800; color:var(--text-primary); margin-bottom:0.375rem; }
+.term-desc { font-size:1.375rem; color:var(--text-secondary); line-height:1.55; }
+
+/* ===== KEY LINE ===== */
+.key-line {
+  background:var(--dark-accent); color:#fff;
+  border-radius:1.75rem; padding:2.5rem 2.75rem;
+  font-size:1.875rem; font-weight:700; line-height:1.55;
+  position:relative; overflow:hidden; margin-top:1rem;
+}
+.key-line .label {
+  display:inline-block; font-size:1.1875rem; font-weight:800;
+  color:#9DC4FF; margin-bottom:0.75rem; letter-spacing:0.03125rem;
+}
+.key-line .quote-mark {
+  position:absolute; right:1.125rem; top:0.375rem;
+  font-size:5rem; color:rgba(255,255,255,0.08);
+  font-family:Georgia,serif; line-height:1;
+}
+
+/* ===== WARN / OK BOX ===== */
+.warn-box {
+  background:var(--red-soft); border-radius:var(--radius-lg);
+  padding:1.5rem 1.75rem; border-left:0.25rem solid var(--red-strong);
+  margin-bottom:1rem;
+}
+.warn-title { font-size:1.375rem; font-weight:800; color:var(--red-strong); margin-bottom:0.5rem; }
+.ok-box {
+  background:var(--green-soft); border-radius:var(--radius-lg);
+  padding:1.5rem 1.75rem; border-left:0.25rem solid var(--green-strong);
+  margin-bottom:1rem;
+}
+.ok-title { font-size:1.375rem; font-weight:800; color:var(--green-strong); margin-bottom:0.5rem; }
+
+/* ===== CHECK ITEM ===== */
+.check-item {
+  display:flex; gap:1rem; align-items:flex-start;
+  padding:1rem 0; border-bottom:1px solid var(--border-default);
+}
+.check-item:last-child { border-bottom:none; }
+.check-num {
+  min-width:2rem; height:2rem; border-radius:50%;
+  background:var(--blue-primary); color:#fff;
+  font-size:1rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  margin-top:0.125rem;
+}
+.check-text { font-size:1.5rem; color:var(--text-secondary); line-height:1.5; }
+
+/* ===== TABLE ===== */
+.table-scroll { overflow-x:auto; }
+.cmp-table { width:100%; border-collapse:collapse; font-size:1.375rem; }
+.cmp-table th {
+  background:var(--bg-gray-100); color:var(--text-primary);
+  font-weight:800; padding:0.875rem 1.125rem;
+  border:1px solid var(--border-default); text-align:left;
+}
+.cmp-table td {
+  padding:0.875rem 1.125rem; border:1px solid var(--border-default);
+  color:var(--text-secondary); vertical-align:top; line-height:1.45;
+}
+.cmp-table tr:nth-child(even) td { background:var(--bg-gray-50); }
+
+/* ===== OX QUIZ ===== */
+.ox-row {
+  display:flex; gap:1.5rem; justify-content:center;
+  margin-top:1.75rem;
+}
+.ox-btn {
+  width:9rem; height:9rem; border-radius:50%; border:none;
+  font-size:4.5rem; cursor:pointer; font-weight:900;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; box-shadow:var(--shadow-float);
+  font-family:'Pretendard',sans-serif;
+}
+.ox-btn.o-btn { background:#E8FAF0; color:var(--green-strong); }
+.ox-btn.x-btn { background:var(--red-soft); color:var(--red-strong); }
+.ox-btn:hover { transform:scale(1.06); }
+.ox-btn.correct { animation:btnBounce 0.45s ease; }
+.ox-btn.wrong   { animation:shake 0.4s ease; }
+.ox-btn.correct.o-btn { background:var(--green-strong); color:#fff; }
+.ox-btn.correct.x-btn { background:var(--red-strong); color:#fff; }
+.ox-btn.wrong   { opacity:0.35; }
+
+.quiz-feedback {
+  display:none; margin-top:1.5rem; text-align:center;
+  padding:1.25rem 2rem; border-radius:var(--radius-lg);
+  font-size:1.5rem; font-weight:700; line-height:1.5;
+}
+.quiz-feedback.show { display:block; }
+.quiz-feedback.correct-fb { background:var(--green-soft); color:var(--green-strong); }
+.quiz-feedback.wrong-fb   { background:var(--red-soft);   color:var(--red-strong); }
+
+.quiz-q-card {
+  background:#fff; border-radius:var(--radius-lg);
+  padding:3rem 2.5rem; text-align:center;
+  box-shadow:var(--shadow-card); margin:1.25rem 0;
+  font-size:2rem; font-weight:700; color:var(--text-primary);
+  line-height:1.5;
+}
+
+/* ===== CASE COVER ===== */
+.case-cover {
+  height:100%; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; text-align:center;
+  padding:3rem 3.5rem; position:relative; overflow:hidden;
+}
+.case-num-huge {
+  font-size:13.75rem; font-weight:900; color:var(--blue-primary);
+  line-height:1; letter-spacing:-0.05em;
+}
+.case-tag {
+  font-size:1.625rem; font-weight:800; color:var(--blue-primary);
+  letter-spacing:0.25rem; margin-bottom:1.75rem;
+}
+.case-title {
+  font-size:4.75rem; font-weight:800; line-height:1.28;
+  color:var(--text-primary); margin-bottom:1.75rem;
+}
+.case-meta {
+  font-size:1.375rem; color:var(--text-tertiary);
+  background:var(--bg-white); padding:1.125rem 2.125rem;
+  border-radius:1.875rem; box-shadow:var(--shadow-card);
+}
+.case-progress-dots { display:flex; gap:0.375rem; justify-content:center; margin-top:1.5rem; }
+.case-progress-dots span { width:0.5rem; height:0.5rem; border-radius:50%; background:var(--border-default); }
+.case-progress-dots span.done { background:var(--blue-primary); }
+
+/* ===== BG DECO ===== */
+.bg-deco {
+  position:absolute; border-radius:50%;
+  pointer-events:none;
+}
+
+/* ===== TIMELINE ===== */
+.timeline { display:flex; flex-direction:column; gap:1rem; }
+.tl-item { display:flex; gap:1rem; align-items:flex-start; }
+.tl-dot { min-width:0.75rem; height:0.75rem; border-radius:50%; background:var(--blue-primary); margin-top:0.5rem; flex-shrink:0; }
+
+/* ===== OPTION CARDS ===== */
+.option-grid { display:flex; flex-direction:column; gap:0.875rem; }
+.option-card {
+  display:flex; gap:1.25rem; align-items:flex-start;
+  padding:1.375rem 1.625rem; border-radius:var(--radius-lg);
+  background:var(--bg-gray-100); border:2px solid transparent;
+  transition:all 0.15s;
+}
+.option-card.best { background:var(--blue-soft); border-color:var(--blue-primary); }
+.option-num {
+  min-width:2.25rem; height:2.25rem; border-radius:50%;
+  background:var(--border-default); color:var(--text-secondary);
+  font-size:1.125rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.option-card.best .option-num { background:var(--blue-primary); color:#fff; }
+
+/* ===== REVEAL BTN ===== */
+.reveal-btn {
+  background:var(--blue-primary); color:#fff;
+  border:none; border-radius:var(--radius-md);
+  padding:0.875rem 1.75rem; font-size:1.25rem; font-weight:700;
+  cursor:pointer; margin-top:1rem;
+  font-family:'Pretendard',sans-serif;
+  transition:background 0.15s;
+}
+.reveal-btn:hover { background:var(--blue-dark); }
+.answer-panel {
+  display:none; margin-top:1rem;
+  background:var(--dark-accent); color:#fff;
+  border-radius:var(--radius-lg); padding:1.75rem 2rem;
+  font-size:1.5rem; line-height:1.6;
+}
+.answer-panel.show { display:block; }
+
+/* ===== DISCUSS CARD ===== */
+.discuss-card {
+  background:#fff; border-radius:var(--radius-lg);
+  padding:1.75rem 2rem; margin-bottom:1rem;
+  box-shadow:var(--shadow-card);
+}
+.discuss-q { display:flex; gap:1rem; align-items:flex-start; font-size:1.75rem; font-weight:600; color:var(--text-primary); line-height:1.5; }
+.discuss-num {
+  min-width:2.25rem; height:2.25rem; border-radius:50%;
+  background:var(--blue-primary); color:#fff;
+  font-size:1.125rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  margin-top:0.125rem;
+}
+
+/* ===== COVER (메인 표지) ===== */
+.main-cover {
+  height:100%; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; text-align:center;
+  padding:3rem; position:relative; overflow:hidden;
+  background: linear-gradient(135deg, #EBF4FF 0%, #F9FAFB 50%, #E8FAF0 100%);
+}
+.main-cover-tag {
+  font-size:1.25rem; font-weight:800; color:var(--blue-primary);
+  letter-spacing:0.2rem; margin-bottom:1.5rem;
+  background:var(--blue-soft); padding:0.5rem 1.5rem; border-radius:2rem;
+}
+.main-cover-title {
+  font-size:5.5rem; font-weight:900; color:var(--text-primary);
+  line-height:1.15; letter-spacing:-0.05rem; margin-bottom:1.5rem;
+}
+.main-cover-sub { font-size:2rem; color:var(--text-secondary); line-height:1.5; margin-bottom:2.5rem; }
+.chapter-grid {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:0.75rem;
+  margin-top:1rem; width:100%;
+}
+.chapter-chip {
+  background:#fff; border-radius:var(--radius-md);
+  padding:0.75rem 0.5rem; text-align:center;
+  box-shadow:var(--shadow-card); font-size:0.9rem;
+  font-weight:700; color:var(--text-secondary);
+}
+.chapter-chip span { display:block; font-size:1.25rem; color:var(--blue-primary); font-weight:800; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes btnBounce {
+  0%   { transform:scale(1); }
+  40%  { transform:scale(1.12); }
+  70%  { transform:scale(1.04); }
+  100% { transform:scale(1); }
+}
+@keyframes shake {
+  0%,100% { transform:translateX(0); }
+  20%     { transform:translateX(-0.5rem); }
+  40%     { transform:translateX(0.5rem); }
+  60%     { transform:translateX(-0.375rem); }
+  80%     { transform:translateX(0.375rem); }
+}
+@keyframes float {
+  0%,100% { transform:translateY(0) rotate(0deg); }
+  50%     { transform:translateY(-0.875rem) rotate(4deg); }
+}
+@keyframes countPop {
+  0%   { transform:scale(0.6); opacity:0; }
+  70%  { transform:scale(1.08); }
+  100% { transform:scale(1);   opacity:1; }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(1.5rem); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.float { animation:float 4s ease-in-out infinite; }
+.pop   { animation:countPop 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+.reveal { animation:fadeUp 0.55s cubic-bezier(.22,.61,.36,1) both; }
+.r1{animation-delay:.04s} .r2{animation-delay:.10s} .r3{animation-delay:.16s}
+.r4{animation-delay:.22s} .r5{animation-delay:.28s} .r6{animation-delay:.34s}
+.r7{animation-delay:.40s} .r8{animation-delay:.46s}
+
+/* ===== CONFETTI ===== */
+.confetti {
+  position:absolute; width:0.625rem; height:0.625rem;
+  border-radius:2px; pointer-events:none; z-index:60;
+}
+
+/* ===== FORMULA BOX ===== */
+.formula-box {
+  background:var(--dark-accent); color:#fff;
+  border-radius:var(--radius-lg); padding:1.75rem 2.25rem;
+  font-size:1.875rem; font-weight:800; text-align:center;
+  letter-spacing:0.03rem; margin:1rem 0;
+}
+.formula-box .formula-label {
+  font-size:1rem; font-weight:600; color:#9DC4FF;
+  margin-bottom:0.5rem; letter-spacing:0.05rem;
+}
+
+/* ===== FLOW ARROW ===== */
+.flow-row {
+  display:flex; align-items:center; gap:0.75rem;
+  flex-wrap:wrap; margin:0.75rem 0;
+}
+.flow-item {
+  background:#fff; border:1px solid var(--border-default);
+  border-radius:var(--radius-md); padding:0.75rem 1.25rem;
+  font-size:1.375rem; font-weight:700; color:var(--text-primary);
+  box-shadow:var(--shadow-card);
+}
+.flow-arrow { font-size:1.5rem; color:var(--blue-primary); font-weight:900; }
+
+/* ===== GAP UTILS ===== */
+.mt1 { margin-top:1rem; }
+.mt2 { margin-top:2rem; }
+.mb1 { margin-bottom:1rem; }
+.mb2 { margin-bottom:2rem; }
+.gap-row { display:flex; gap:1.25rem; }
+.col2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+
+/* ===== COVER CHAPTER SECTION ===== */
+.section-cover {
+  background: linear-gradient(135deg, var(--blue-soft) 0%, #fff 100%);
+}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="app">
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="nav-bar">
+      <button class="nav-btn" id="btnPrev">‹</button>
+      <div class="nav-mid" id="navMid">
+        <div class="nav-counter" id="navCounter">1 / 1</div>
+        <div class="nav-section-name" id="navSection">여신 핵심 용어 해설</div>
+      </div>
+      <button class="nav-btn primary" id="btnNext">›</button>
+    </div>
+    <div class="toc-overlay" id="tocOverlay">
+      <div class="toc-sheet" id="tocSheet">
+        <div class="toc-handle"></div>
+        <div class="toc-title">📑 목차로 이동</div>
+        <div id="tocList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =================== OX QUIZ DATA ===================
+const OX_QUIZ = [
+  // Ch.I 여신 기초개념
+  {c:1, q:"여신(與信)은 대출만을 의미하며 보증·할인은 포함되지 않는다.", a:false, exp:"여신은 대출·보증·어음할인·지급보증 등 금융기관이 고객에게 신용을 제공하는 모든 행위를 포괄하는 개념입니다."},
+  {c:1, q:"채권과 채무는 항상 동시에 존재하며, 금융기관은 채권자이고 고객은 채무자다.", a:true, exp:"채권(빚 받을 권리)과 채무(빚 갚을 의무)는 항상 쌍으로 존재합니다. 금융기관=채권자, 고객=채무자."},
+  {c:1, q:"여신거래약정서 제1조에 따르면 어음할인도 여신의 범위에 포함된다.", a:true, exp:"여신거래약정서 기준, 여신은 대출·어음할인·지급보증 등 금융기관이 고객에게 신용을 제공하는 모든 행위를 포괄합니다."},
+  {c:1, q:"대출(貸出)은 여신보다 더 넓은 포괄적 개념이다.", a:false, exp:"여신이 더 넓은 포괄적 개념입니다. 대출은 여신의 가장 기본적인 한 형태(돈을 빌려주는 것)입니다."},
+  {c:1, q:"채무(債務)는 빚을 받을 권리를 의미한다.", a:false, exp:"빚을 받을 권리는 채권(債權)입니다. 채무(債務)는 빚을 갚을 의무로, 고객이 지닌 법적 의무입니다."},
+
+  // Ch.II 대출 분류·상환방법
+  {c:2, q:"원금균등분할상환은 매월 납부하는 원금이 동일하며, 이자는 매월 감소한다.", a:true, exp:"원금을 균등하게 나누어 상환하므로 매월 원금 납부액은 동일하고, 잔액이 줄어 이자는 매월 감소합니다."},
+  {c:2, q:"원리금균등분할상환은 초반에 원금 비중이 높고 후반에 이자 비중이 높다.", a:false, exp:"원리금균등상환은 초반에 이자 비중이 높고 후반에 원금 비중이 높아집니다. 월 납부액은 일정합니다."},
+  {c:2, q:"일시상환 방식은 일시·원금균등·원리금균등 세 가지 일반 상환방식 중 총 이자 부담이 가장 크다.", a:true, exp:"일시상환은 만기까지 원금을 전혀 상환하지 않으므로 동일 금리·기간 기준 총 이자 부담이 가장 큽니다."},
+  {c:2, q:"한도거래는 약정한 한도 내에서 수시로 차입·상환을 반복할 수 있다.", a:true, exp:"한도거래(限度去來)는 여신거래약정서에 정한 한도금액 범위 내에서 수시로 차입·상환을 반복할 수 있는 방식입니다."},
+  {c:2, q:"한도거래에서는 약정 한도 전액에 대해 이자가 부과된다.", a:false, exp:"한도거래는 실제 사용(인출) 금액에 대해서만 이자가 부과됩니다. 미사용 한도에는 이자가 발생하지 않습니다."},
+
+  // Ch.III 금리 체계
+  {c:3, q:"대출 최종 적용금리는 기준금리에 가산금리를 더하고 우대금리를 차감하여 산출한다.", a:true, exp:"최종 대출금리 = 기준금리 + 가산금리 − 우대금리. 다만 여신금리 기본 정의는 기준금리+가산금리이며, 우대금리 차감은 별도 산식입니다."},
+  {c:3, q:"신용도가 낮을수록 신용위험 프리미엄이 낮아진다.", a:false, exp:"신용도가 낮을수록 상환 불이행 위험이 높아지므로 신용위험 프리미엄(가산금리 구성요소)은 높아집니다."},
+  {c:3, q:"연체금리는 약정기일 당일이 아닌 다음 날부터 적용된다.", a:true, exp:"상환기일 당일까지는 기한내이자율이 적용되며, 상환기일 다음 날부터 연체이자율이 적용됩니다."},
+  {c:3, q:"우대금리는 급여이체, 자동이체 등 거래 실적에 따라 기본금리에서 차감된다.", a:true, exp:"우대금리(優待金利)는 급여이체·자동이체·신용카드 사용 등 거래 실적에 따라 기본금리에서 차감해주는 금리입니다."},
+  {c:3, q:"COFIX는 내부기준금리의 대표적인 예다.", a:false, exp:"COFIX(코픽스)는 은행들이 자금을 조달하는 비용을 반영한 외부기준금리(시장연동금리)의 대표적 예입니다."},
+
+  // Ch.IV 담보 기초
+  {c:4, q:"근저당은 현재 채권뿐 아니라 미래에 발생할 채권도 담보할 수 있다.", a:true, exp:"근저당(根抵當)은 현재·장래에 발생하는 불특정 채권을 채권최고액 범위 내에서 담보하는 저당권입니다."},
+  {c:4, q:"채권최고액은 통상 실제 대출금액의 80~90%로 설정한다.", a:false, exp:"채권최고액은 통상 대출금액의 120~130%로 설정합니다. 이자·연체이자·비용까지 담보하기 위해 더 높게 설정합니다."},
+  {c:4, q:"물상보증인은 자신의 재산으로 보증하지만 채무자의 채무 전액에 대한 인적 책임은 없다.", a:true, exp:"물상보증인은 담보물에 관하여만 책임을 집니다. 채무자의 채무 전부에 대한 인적 책임은 없고 담보물 범위 내에서만 책임집니다."},
+  {c:4, q:"일반 저당권은 현재와 미래의 채권을 모두 담보한다.", a:false, exp:"일반 저당권은 특정 현재 채권만 담보합니다. 현재·미래 채권을 모두 담보하는 것은 근저당(根抵當)입니다."},
+  {c:4, q:"신용보증서는 공적담보의 일종이다.", a:true, exp:"신용보증서는 신용보증기금·기술보증기금 등 공적 보증기관이 발행하는 보증서로, 공적담보(보증서 담보)에 해당합니다."},
+
+  // Ch.V 보증
+  {c:5, q:"연대보증인은 주채무자가 먼저 변제하지 않아도 채권자가 즉시 청구할 수 있다.", a:true, exp:"연대보증은 항변권이 없어 채권자는 주채무자와 연대보증인 중 누구에게든 먼저 전액 청구할 수 있습니다."},
+  {c:5, q:"일반 보증인은 최고·검색의 항변권을 행사할 수 없다.", a:false, exp:"일반 보증인은 최고·검색의 항변권이 있습니다. 채권자가 먼저 주채무자에게 청구·집행하도록 요구할 수 있습니다."},
+  {c:5, q:"구상권이란 보증인이 채무자 대신 변제한 후 채무자에게 돌려받을 수 있는 권리다.", a:true, exp:"구상권(求償權)은 보증인이 채무자 대신 채무를 변제한 경우 채무자에게 그 금액을 돌려받을 수 있는 권리입니다."},
+  {c:5, q:"신용보증서는 담보가 부족한 소상공인·중소기업이 주로 활용한다.", a:true, exp:"신용보증서는 담보 없는 소상공인·중소기업이 대출을 받을 수 있게 해주는 수단으로, 신용보증기금 등 공적 보증기관이 발행합니다."},
+  {c:5, q:"보증기관이 대위변제한 후에는 채무자에게 구상권을 행사할 수 없다.", a:false, exp:"보증기관이 대위변제한 후에는 채무자에게 구상권을 행사할 수 있습니다. 보증기관이 대신 갚은 금액을 채무자에게 돌려받을 수 있습니다."},
+
+  // Ch.VI 채무관계자
+  {c:6, q:"연대채무자는 처음부터 주채무자와 동등한 채무를 부담한다.", a:true, exp:"연대채무자(連帶債務者)는 주채무자와 동일한 채무를 처음부터 부담합니다. 채권자는 연대채무자 중 누구에게든 전액 청구 가능합니다."},
+  {c:6, q:"피성년후견인은 여신 거래에서 채무자 자격이 제한된다.", a:true, exp:"제6조 제5호에 따라 피성년후견인은 여신 거래에서 채무자·보증인 자격이 제한됩니다. 법원의 성년후견 개시 심판을 받은 성인입니다."},
+  {c:6, q:"연체대출 채무자는 새로운 대출의 보증인이 될 수 있다.", a:false, exp:"제6조에 따라 연체대출 채무자는 채무자 또는 보증인이 될 수 없습니다. 단, 일정 조건 충족 시 예외 규정이 적용될 수 있습니다."},
+  {c:6, q:"법인은 자연인과 동일하게 법률상 권리·의무의 주체가 된다.", a:true, exp:"법인(法人)은 법률에 의해 권리·의무의 주체로 인정된 단체 또는 재산입니다. 자연인과 마찬가지로 법률상 권리·의무의 주체가 됩니다."},
+  {c:6, q:"법인 대출 시 대표이사의 연대보증을 요구하는 경우는 없다.", a:false, exp:"법인 대출 시 실무상 대표이사·실질 지배자에 대해 특정근보증 또는 한정근보증 입보를 검토하며, 관련 규정 및 예외 기준에 따라 결정됩니다."},
+];
+
+// =================== SLIDES ===================
+const SLIDES = [];
+function addSlide(section, html) { SLIDES.push({ section, html }); }
+
+let quizAnswered = {};
+let appEl, activeSlide;
+
+// ---- S01 표지 ----
+addSlide('표지', `
+<div class="main-cover">
+  <div class="bg-deco float" style="width:30rem;height:30rem;top:-12%;right:-8%;background:radial-gradient(circle,rgba(49,130,246,0.10),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:18rem;height:18rem;bottom:-5%;left:-4%;background:radial-gradient(circle,rgba(10,194,130,0.08),transparent 70%);animation-delay:2s;"></div>
+  <div class="reveal r1 main-cover-tag">여신 기초 완전정복</div>
+  <div class="reveal r2 main-cover-title">여신(與信)<br>핵심 용어 해설</div>
+  <div class="reveal r3 main-cover-sub">금융기관 직원이라면 반드시 알아야 할<br>여신 업무 핵심 용어 10개 챕터</div>
+  <div class="reveal r4 chapter-grid">
+    <div class="chapter-chip"><span>Ch.I</span>여신기초</div>
+    <div class="chapter-chip"><span>Ch.II</span>상환방법</div>
+    <div class="chapter-chip"><span>Ch.III</span>금리체계</div>
+    <div class="chapter-chip"><span>Ch.IV</span>담보기초</div>
+    <div class="chapter-chip"><span>Ch.V</span>보증</div>
+    <div class="chapter-chip"><span>Ch.VI</span>채무관계자</div>
+    <div class="chapter-chip"><span>Ch.VII</span>여신절차</div>
+    <div class="chapter-chip"><span>Ch.VIII</span>사후관리</div>
+    <div class="chapter-chip"><span>Ch.IX</span>신용평가</div>
+    <div class="chapter-chip"><span>Ch.X</span>기업여신</div>
+  </div>
+</div>
+`);
+
+// ---- S02 오늘의 목표 ----
+addSlide('학습 목표', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">🎯 오늘의 학습 목표</div>
+  <div class="reveal r2 h1" style="margin-bottom:2rem;">3시간, 10개 챕터</div>
+  <div class="reveal r3 col2">
+    <div class="card" style="border-left:4px solid var(--blue-primary);">
+      <div class="h3" style="margin-bottom:0.75rem;">📖 이론 학습</div>
+      <div class="body-text">핵심 용어 한자 직역부터<br>규정 조문 연결까지<br>의미 중심으로 이해</div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--green-strong);">
+      <div class="h3" style="margin-bottom:0.75rem;">✅ OX 퀴즈</div>
+      <div class="body-text">챕터별 5문항 OX 풀이로<br>핵심 개념 즉시 점검<br>총 30문항 체험</div>
+    </div>
+  </div>
+  <div class="reveal r4 key-line" style="margin-top:1.5rem;">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 학습 원칙</span>
+    용어의 <b style="color:#9DC4FF;">한자 의미</b>를 먼저 파악하면, 규정 조문이 자연스럽게 이해됩니다.
+  </div>
+</div>
+`);
+
+// ---- S03 타임테이블 ----
+addSlide('타임테이블', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">⏱️ 오늘의 타임테이블</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.5rem;">챕터별 진행 구성</div>
+  <div class="reveal r3">
+    <div class="card">
+      <div class="table-scroll">
+        <table class="cmp-table">
+          <tr>
+            <th>챕터</th><th>주제</th><th>OX</th><th>핵심 용어</th>
+          </tr>
+          <tr><td><span class="badge badge-blue" style="margin:0;">Ch.I</span></td><td>여신 기초개념</td><td>5문항</td><td>여신·대출·채권·채무</td></tr>
+          <tr><td><span class="badge badge-blue" style="margin:0;">Ch.II</span></td><td>대출 분류·상환방법</td><td>5문항</td><td>일시·원금균등·원리금균등·한도거래</td></tr>
+          <tr><td><span class="badge badge-blue" style="margin:0;">Ch.III</span></td><td>금리 체계</td><td>5문항</td><td>기준금리·가산금리·연체금리·우대금리</td></tr>
+          <tr><td><span class="badge badge-amber" style="margin:0;">Ch.IV</span></td><td>담보 기초</td><td>5문항</td><td>근저당·채권최고액·물상보증인</td></tr>
+          <tr><td><span class="badge badge-amber" style="margin:0;">Ch.V</span></td><td>보증</td><td>5문항</td><td>일반보증·연대보증·구상권·신용보증서</td></tr>
+          <tr><td><span class="badge badge-green" style="margin:0;">Ch.VI</span></td><td>채무관계자</td><td>5문항</td><td>채무자·연대채무자·피성년후견인·법인</td></tr>
+          <tr><td><span class="badge badge-gray" style="margin:0;">Ch.VII</span></td><td>여신 절차</td><td>—</td><td>신용조사·여신심사·채권보전·자금용도</td></tr>
+          <tr><td colspan="4" style="text-align:center;color:var(--text-tertiary);font-size:1.125rem;">Ch.VIII~X (사후관리·신용평가·기업여신) — 별도 교재</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// =================== CH.I ===================
+// S04 Ch.I 케이스 표지
+addSlide('Ch.I 여신 기초개념', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;top:-8%;right:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;bottom:-4%;left:-3%;background:radial-gradient(circle,rgba(245,166,35,0.10),transparent 70%);animation-delay:2s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅰ</div>
+  <div class="reveal r2 case-tag">CHAPTER I</div>
+  <div class="reveal r3 case-title">여신 기초개념</div>
+  <div class="reveal r4 case-meta">여신(與信) · 대출(貸出) · 채권(債權) · 채무(債務)</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+`);
+
+// S05 Ch.I OX 워밍업
+addSlide('Ch.I OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">🧠</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">여신 기초개념</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">
+    5문항을 먼저 풀고 — 답을 보기 전에 직접 판단해보세요
+  </div>
+  <div class="reveal r4 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 퀴즈 전략</span>
+    <b style="color:#9DC4FF;">여신 = 대출?</b> 아니면 더 넓은 개념? 한자를 떠올리며 답해보세요.
+  </div>
+</div>
+`);
+
+// S06~S10 Ch.I OX 문항
+function addCaseQuiz(caseNum) {
+  const qs = OX_QUIZ.filter(q => q.c === caseNum);
+  qs.forEach((q, i) => {
+    const globalIdx = OX_QUIZ.indexOf(q);
+    const chRoman = ['','I','II','III','IV','V','VI'][caseNum];
+    addSlide(`Ch.${chRoman} OX ${i+1}/${qs.length}`, `
+<div class="slide-inner vcenter">
+  <div style="text-align:center;margin-bottom:1rem;">
+    <span class="badge badge-blue">Ch.${chRoman}</span>
+    <span class="badge badge-amber" style="margin-left:0.5rem;">OX ${i+1} / ${qs.length}</span>
+  </div>
+  <div class="reveal r2 quiz-q-card">${q.q}</div>
+  <div class="reveal r3 ox-row">
+    <button class="ox-btn o-btn" onclick="answerOX(${globalIdx}, true)">O</button>
+    <button class="ox-btn x-btn" onclick="answerOX(${globalIdx}, false)">X</button>
+  </div>
+  <div class="quiz-feedback" id="fb-${globalIdx}"></div>
+</div>
+`);
+  });
+}
+addCaseQuiz(1);
+
+// S11 Ch.I 용어 — 여신·대출
+addSlide('Ch.I 여신·대출 용어', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.I — 핵심 용어 ①</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.5rem;">여신(與信)과 대출(貸出)</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🏦</div>
+      <div>
+        <div class="term-name">여신(與信) — 與(줄 여) + 信(믿음 신)</div>
+        <div class="term-desc">신용을 줌 — 대출·보증·어음할인·지급보증 등 금융기관이 고객에게 신용을 제공하는 <b>모든 행위</b>의 포괄적 개념</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">💰</div>
+      <div>
+        <div class="term-name">대출(貸出) — 貸(빌릴 대) + 出(날 출)</div>
+        <div class="term-desc">돈을 빌려 내보냄 — 여신의 가장 기본적 형태. 일정 금액을 정해진 기간 동안 빌려주고 이자와 함께 상환받음. 기간별(단기/중기/장기), 용도별(운전/시설), 상환방법별(일시/분할/한도)로 분류</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 핵심 관계</span>
+    <b style="color:#9DC4FF;">여신 ⊃ 대출</b> — 대출은 여신의 한 종류. 여신에는 대출 외에도 보증·할인·지급보증 등이 포함됨
+  </div>
+</div>
+`);
+
+// S12 Ch.I 용어 — 채권·채무
+addSlide('Ch.I 채권·채무 용어', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.I — 핵심 용어 ②</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.5rem;">채권(債權)과 채무(債務) — 항상 함께</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">⚖️</div>
+      <div>
+        <div class="term-name">채권(債權) — 債(빚 채) + 權(권리 권)</div>
+        <div class="term-desc">빚을 받을 권리 — 금융기관이 보유. 대출해준 금융기관이 채무자에게 원금과 이자의 상환을 요구할 수 있는 법적 권리</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">📋</div>
+      <div>
+        <div class="term-name">채무(債務) — 債(빚 채) + 務(일/의무 무)</div>
+        <div class="term-desc">빚 갚을 의무 — 고객이 지님. 금융기관으로부터 대출을 받아 원금과 이자를 상환해야 할 의무<br><span style="font-size:1.2rem;color:var(--text-tertiary);">※ 채무자(債務者) = 債務 + 者(사람) → '채무를 지닌 사람'</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 ok-box">
+    <div class="ok-title">✅ 채권·채무는 항상 쌍으로 존재</div>
+    <div class="body-text">금융기관(채권자) ↔ 고객(채무자). 한쪽이 존재하면 반드시 다른 쪽도 존재합니다.</div>
+  </div>
+</div>
+`);
+
+// =================== CH.II ===================
+addSlide('Ch.II 대출 분류·상환방법', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;bottom:-8%;left:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;top:-4%;right:-3%;background:radial-gradient(circle,rgba(240,68,82,0.08),transparent 70%);animation-delay:1.5s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅱ</div>
+  <div class="reveal r2 case-tag">CHAPTER II</div>
+  <div class="reveal r3 case-title">대출 분류<br>및 상환방법</div>
+  <div class="reveal r4 case-meta">일시상환 · 원금균등 · 원리금균등 · 한도거래</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span class="done"></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+`);
+
+addSlide('Ch.II OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">💸</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">대출 분류·상환방법</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">
+    어떻게 갚느냐에 따라 총 이자 부담이 크게 달라집니다
+  </div>
+  <div class="reveal r4 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 핵심 질문</span>
+    <b style="color:#9DC4FF;">총 이자</b>가 가장 큰 상환방식은? 월 납부액이 일정한 방식은?
+  </div>
+</div>
+`);
+addCaseQuiz(2);
+
+// S20 상환방법 개요
+addSlide('Ch.II 상환방법 4종 개요', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.II — 상환방법 4종 비교</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.5rem;">한눈에 보는 상환방법</div>
+  <div class="reveal r3">
+    <div class="card">
+      <div class="table-scroll">
+        <table class="cmp-table">
+          <tr>
+            <th>구분</th><th>원금 납부</th><th>이자</th><th>월 납부액</th><th>총 이자</th><th>특징</th>
+          </tr>
+          <tr>
+            <td><b>일시상환</b></td>
+            <td>만기 일시</td>
+            <td>매월 동일</td>
+            <td>이자만(소액)</td>
+            <td style="color:var(--red-strong);font-weight:800;">가장 큼</td>
+            <td>만기 목돈 필요</td>
+          </tr>
+          <tr>
+            <td><b>원금균등</b></td>
+            <td>매월 동일</td>
+            <td>매월 감소</td>
+            <td>초반 많음</td>
+            <td style="color:var(--green-strong);font-weight:800;">가장 작음</td>
+            <td>초반 부담 큼</td>
+          </tr>
+          <tr>
+            <td><b>원리금균등</b></td>
+            <td>매월 증가</td>
+            <td>매월 감소</td>
+            <td style="color:var(--blue-primary);font-weight:800;">매월 동일</td>
+            <td>중간</td>
+            <td>가계 계획 용이</td>
+          </tr>
+          <tr>
+            <td><b>한도거래</b></td>
+            <td>수시 상환</td>
+            <td>사용액만</td>
+            <td>변동</td>
+            <td>사용에 따라</td>
+            <td>마이너스 통장</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// S21 일시상환 해설
+addSlide('Ch.II 일시상환 해설', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.II — 일시상환(一時償還)</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">한 번에 전액을 갚음</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">📅</div>
+      <div>
+        <div class="term-name">一時(한 번) + 償還(갚음) → "한 번에 전액을 갚음"</div>
+        <div class="term-desc">대출 만기일에 원금 전액을 한꺼번에 상환하는 방식. 기간 중에는 이자만 납부</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4 col2">
+    <div class="ok-box">
+      <div class="ok-title">✅ 장점</div>
+      <div class="body-text">월 납부 부담 최소 (이자만 납부)</div>
+    </div>
+    <div class="warn-box">
+      <div class="warn-title">⚠️ 단점</div>
+      <div class="body-text">만기 시 큰 금액 준비 필요. 동일 조건 대비 총 이자 부담 가장 큼</div>
+    </div>
+  </div>
+  <div class="reveal r5 card-flat">
+    <div class="small-text">💡 실무 예시 — 1년 만기 1,000만원, 연 5%</div>
+    <div class="flow-row" style="margin-top:0.75rem;">
+      <div class="flow-item">매월 이자 약 4.2만원</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">11개월간 이자만</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">만기에 원금 1,000만원 일시 상환</div>
+    </div>
+  </div>
+</div>
+`);
+
+// S22 원금균등 vs 원리금균등
+addSlide('Ch.II 원금균등 vs 원리금균등', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.II — 분할상환 2종 비교</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">원금균등 vs 원리금균등</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">📊</div>
+      <div>
+        <div class="term-name">원금균등분할상환 — "원금을 균등하게 나누어 갚음"</div>
+        <div class="term-desc">매월 동일한 원금 상환 + 줄어드는 이자. 초반 부담 크지만 <b>총 이자 납부액 최소</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">📈</div>
+      <div>
+        <div class="term-name">원리금균등분할상환 — "원금+이자를 합쳐 균등하게 갚음"</div>
+        <div class="term-desc">매월 동일한 납부액(원금+이자). 초반 이자 비중 높고, 후반 원금 비중 높아짐. <b>가계 계획 수립 용이</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 선택 기준</span>
+    총 이자 최소화 원할 때 → <b style="color:#9DC4FF;">원금균등</b> / 월 납부액 일정 원할 때 → <b style="color:#9DC4FF;">원리금균등</b>
+  </div>
+</div>
+`);
+
+// S23 한도거래 해설
+addSlide('Ch.II 한도거래 해설', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.II — 한도거래(限度去來)</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">마이너스 통장의 원리</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🔄</div>
+      <div>
+        <div class="term-name">限度(한계) + 去來(거래) → "정해진 한도 안에서 거래함"</div>
+        <div class="term-desc">여신거래약정서에 한도금액과 약정기간을 정하고, 그 범위 내에서 수시로 차입·상환을 반복할 수 있는 방식</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="flow-row">
+      <div class="flow-item">한도 1,000만원 설정</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">필요할 때 인출</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">입금 시 자동상환</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">잔액에 대해서만 이자</div>
+    </div>
+  </div>
+  <div class="reveal r5 col2" style="margin-top:1rem;">
+    <div class="ok-box">
+      <div class="ok-title">✅ 특징</div>
+      <div class="body-text">실제 사용 금액에만 이자 부과. 한도 내 자유로운 입출금. 약정기간 내 반복 사용 가능</div>
+    </div>
+    <div class="warn-box">
+      <div class="warn-title">⚠️ 주의</div>
+      <div class="body-text">미사용 한도에는 이자 발생 없음 (전액 이자 X). 약정기간 내 관리 필요</div>
+    </div>
+  </div>
+</div>
+`);
+
+// =================== CH.III ===================
+addSlide('Ch.III 금리 체계', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;top:-8%;left:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;bottom:-4%;right:-3%;background:radial-gradient(circle,rgba(10,194,130,0.08),transparent 70%);animation-delay:1.8s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅲ</div>
+  <div class="reveal r2 case-tag">CHAPTER III</div>
+  <div class="reveal r3 case-title">금리 체계</div>
+  <div class="reveal r4 case-meta">기준금리 · 가산금리 · 우대금리 · 연체금리</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span class="done"></span><span class="done"></span><span></span><span></span><span></span>
+  </div>
+</div>
+`);
+
+addSlide('Ch.III OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">📉</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">금리 체계</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">여신금리 = 기준금리 + 가산금리 (규정 기본 정의)</div>
+  <div class="reveal r4 formula-box">
+    <div class="formula-label">최종 적용금리 공식</div>
+    기준금리 + 가산금리 − 우대금리
+  </div>
+</div>
+`);
+addCaseQuiz(3);
+
+// 금리 체계 개요
+addSlide('Ch.III 금리 공식 해설', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.III — 금리 체계 전체 구조</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">대출금리는 어떻게 결정되나?</div>
+  <div class="reveal r3 formula-box">
+    <div class="formula-label">여신금리 기본 공식 (제42조)</div>
+    여신금리 = 기준금리 + 가산금리<br>
+    <span style="font-size:1.25rem;color:#9DC4FF;">최종 적용금리 = 기준금리 + 가산금리 − 우대금리</span>
+  </div>
+  <div class="reveal r4">
+    <div class="card">
+      <div class="table-scroll">
+        <table class="cmp-table">
+          <tr><th>구성요소</th><th>역할</th><th>예시</th></tr>
+          <tr><td><b>기준금리</b></td><td>출발점 — 시장·정책 기준 이율</td><td>COFIX, CD금리, 내부기준금리</td></tr>
+          <tr><td><b>가산금리①</b></td><td>신용위험 프리미엄 — 신용도 반영</td><td>신용도 낮을수록 높아짐</td></tr>
+          <tr><td><b>가산금리②</b></td><td>업무원가율 — 심사·관리 비용</td><td>대출 심사·관리 비용</td></tr>
+          <tr><td><b>가산금리③</b></td><td>목표이익률 — 수익 목표 반영</td><td>금융기관 수익 목표</td></tr>
+          <tr><td><b>가산금리④</b></td><td>유동성 프리미엄 — 자금 조달 위험</td><td>자금 조달 유동성 위험 보전</td></tr>
+          <tr><td><b>우대금리</b></td><td>조건부 차감 — 거래 실적 우대</td><td>급여이체·자동이체·카드 사용</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// 기준금리·연체금리·우대금리
+addSlide('Ch.III 기준·연체·우대금리', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.III — 핵심 금리 용어</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">기준금리 · 연체금리 · 우대금리</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">⚓</div>
+      <div>
+        <div class="term-name">기준금리(基準金利) — "기준이 되는 이자율"</div>
+        <div class="term-desc">여신금리 산출의 출발점. 내부기준금리(금고 자체 산정) 또는 시장연동금리(외부기준금리: COFIX·CD금리 등)</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">⚠️</div>
+      <div>
+        <div class="term-name">연체금리(延滯金利) — 延(늘일 연) + 滯(막힐 체) → "납부가 늦어졌을 때 적용"</div>
+        <div class="term-desc">약정기일 내 미납 시 부과하는 가중 이자율. 상환기일 <b>당일</b>까지 기한내이율 → 다음 날부터 연체이율 적용</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5">
+    <div class="term-card">
+      <div class="term-icon">🎁</div>
+      <div>
+        <div class="term-name">우대금리(優待金利) — "우대하여 낮춰주는 이자율"</div>
+        <div class="term-desc">급여이체·자동이체·신용카드 사용 등 거래 실적에 따라 기본금리에서 차감해주는 금리</div>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// =================== CH.IV ===================
+addSlide('Ch.IV 담보 기초', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;bottom:-8%;right:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;top:-4%;left:-3%;background:radial-gradient(circle,rgba(240,68,82,0.08),transparent 70%);animation-delay:2.2s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅳ</div>
+  <div class="reveal r2 case-tag">CHAPTER IV</div>
+  <div class="reveal r3 case-title">담보 기초</div>
+  <div class="reveal r4 case-meta">담보 · 근저당 · 채권최고액 · 물상보증인</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span></span><span></span>
+  </div>
+</div>
+`);
+
+addSlide('Ch.IV OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">🏠</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">담보 기초</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">채무자가 채무를 이행하지 않을 때를 대비한 금융기관의 안전장치</div>
+  <div class="reveal r4 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 핵심 질문</span>
+    채권최고액은 대출금액의 몇 %로 설정할까? 근저당과 일반 저당권의 차이는?
+  </div>
+</div>
+`);
+addCaseQuiz(4);
+
+// 담보·근저당
+addSlide('Ch.IV 담보·근저당 용어', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.IV — 핵심 용어 ①</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">담보(擔保)와 근저당(根抵當)</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🛡️</div>
+      <div>
+        <div class="term-name">담보(擔保) — 擔(맡을 담) + 保(지킬 보) → "맡겨서 지킨다"</div>
+        <div class="term-desc">채무자가 채무를 이행하지 않을 때를 대비하여 채권자가 확보하는 물적·인적 수단<br><b>물적담보</b>: 부동산(근저당)·동산·유가증권 / <b>인적담보</b>: 보증인 / <b>보증서 담보</b>: 신용보증서</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">🌿</div>
+      <div>
+        <div class="term-name">근저당(根抵當) — 根(뿌리 근) → "뿌리가 되는 저당권"</div>
+        <div class="term-desc">현재의 채권뿐 아니라 <b>미래에 발생할 채권도 담보</b>하기 위해 채권최고액을 정하여 설정하는 저당권. 일반 저당권은 "지금 빌린 1억"만 담보하지만, 근저당은 계속적 거래관계에서 발생하는 불특정 채권을 채권최고액 범위 내에서 담보</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 card-flat">
+    <div class="small-text">💡 실무 예시 — 대출 1억원 → 채권최고액 <b>1억 2천만원</b>으로 근저당 설정. 이자·연체이자·비용까지 담보 범위에 포함</div>
+  </div>
+</div>
+`);
+
+// 채권최고액·물상보증인
+addSlide('Ch.IV 채권최고액·물상보증인', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.IV — 핵심 용어 ②</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">채권최고액과 물상보증인</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">💹</div>
+      <div>
+        <div class="term-name">채권최고액(債權最高額) — "담보로 보장받을 수 있는 최대 금액"</div>
+        <div class="term-desc">실제 대출금액보다 높게 설정. 통상 대출금액의 <b>120~130%</b>로 설정 (상품별 예외 가능). 이자·연체이자·비용까지 포함하기 위함</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">🏘️</div>
+      <div>
+        <div class="term-name">물상보증인(物上保證人) — 物(물건) + 上(위) + 保證人 → "자기 물건으로 보증하는 사람"</div>
+        <div class="term-desc">채무자의 채무를 직접 보증하지 않고 자신 소유의 부동산 등에 담보권을 설정하여 채무를 담보하는 제3자. <b>담보물 범위 내에서만 책임</b>을 지며 채무자의 채무 전부에 대한 인적 책임 없음</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 col2">
+    <div class="ok-box">
+      <div class="ok-title">✅ 물상보증인</div>
+      <div class="body-text">담보물에 관해서만 책임. 경우에 따라 구상권 행사 가능</div>
+    </div>
+    <div class="warn-box">
+      <div class="warn-title">⚠️ 주의</div>
+      <div class="body-text">물상보증인 ≠ 채무자. 채무자의 채무 전액에 대한 인적 책임 없음</div>
+    </div>
+  </div>
+</div>
+`);
+
+// =================== CH.V ===================
+addSlide('Ch.V 보증', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;top:-8%;right:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;bottom:-4%;left:-3%;background:radial-gradient(circle,rgba(10,194,130,0.08),transparent 70%);animation-delay:1.3s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅴ</div>
+  <div class="reveal r2 case-tag">CHAPTER V</div>
+  <div class="reveal r3 case-title">보증(保證)</div>
+  <div class="reveal r4 case-meta">일반보증 · 연대보증 · 구상권 · 신용보증서</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span></span>
+  </div>
+</div>
+`);
+
+addSlide('Ch.V OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">🤝</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">보증(保證)</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">保(지킬 보) + 證(증거 증) → "증거를 들어 지켜줌"</div>
+  <div class="reveal r4 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 핵심 질문</span>
+    일반 보증인과 연대보증인의 결정적 차이는? 구상권이란 무엇인가?
+  </div>
+</div>
+`);
+addCaseQuiz(5);
+
+// 보증·연대보증
+addSlide('Ch.V 보증·연대보증 용어', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.V — 핵심 용어 ①</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">일반 보증과 연대보증의 차이</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🤜</div>
+      <div>
+        <div class="term-name">일반 보증 — "A한테 먼저 받고 없으면 나한테 와라"</div>
+        <div class="term-desc">채무자가 이행하지 않을 경우 보증인이 대신 이행하겠다는 약속. 보증인은 <b>최고·검색의 항변권</b> 행사 가능 → 채권자에게 주채무자에게 먼저 청구·집행하도록 요구할 수 있음</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">🤝</div>
+      <div>
+        <div class="term-name">연대보증(連帶保證) — "함께 연대하여 보증함"</div>
+        <div class="term-desc">주채무자와 동일한 책임을 지는 강력한 보증 형태. <b>항변권 없음</b> → 채권자는 주채무자와 보증인 중 누구에게든 먼저 청구 가능</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5">
+    <div class="card">
+      <div class="table-scroll">
+        <table class="cmp-table">
+          <tr><th>구분</th><th>항변권</th><th>청구 순서</th><th>책임 범위</th></tr>
+          <tr><td><b>일반 보증</b></td><td style="color:var(--green-strong);">있음</td><td>주채무자 먼저 청구 요구 가능</td><td>채무 전액</td></tr>
+          <tr><td><b>연대보증</b></td><td style="color:var(--red-strong);">없음</td><td>누구에게든 즉시 청구 가능</td><td>채무 전액</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// 구상권·신용보증서
+addSlide('Ch.V 구상권·신용보증서', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.V — 핵심 용어 ②</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">구상권과 신용보증서</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🔙</div>
+      <div>
+        <div class="term-name">구상권(求償權) — 求(구할 구) + 償(갚을 상) + 權 → "대신 갚고 나서 돌려받을 권리"</div>
+        <div class="term-desc">보증인이 채무자 대신 채무를 변제한 경우, 채무자에게 그 금액을 돌려받을 수 있는 권리<br>예) B가 A 대신 100만원 갚음 → B는 이후 A에게 "내가 대신 낸 100만원 돌려줘"라고 청구 가능</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">📄</div>
+      <div>
+        <div class="term-name">신용보증서(信用保證書) — "신용으로 보증하는 문서"</div>
+        <div class="term-desc">신용보증기금·기술보증기금·지역신용보증재단 등 <b>공적 보증기관</b>이 발행하는 보증서. 담보 부족한 소상공인·중소기업이 대출받을 수 있게 해주는 수단. 보증기관이 대위변제 후 채무자에게 구상권 행사</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 실무 흐름</span>
+    대출 → 채무 불이행 → 보증기관 <b style="color:#9DC4FF;">대위변제</b> → 보증기관이 채무자에게 구상권 행사
+  </div>
+</div>
+`);
+
+// =================== CH.VI ===================
+addSlide('Ch.VI 채무관계자', `
+<div class="case-cover section-cover">
+  <div class="bg-deco float" style="width:26rem;height:26rem;bottom:-8%;left:-5%;background:radial-gradient(circle,rgba(49,130,246,0.12),transparent 70%);"></div>
+  <div class="bg-deco float" style="width:14rem;height:14rem;top:-3%;right:-4%;background:radial-gradient(circle,rgba(240,68,82,0.08),transparent 70%);animation-delay:2s;"></div>
+  <div class="reveal r1 case-num-huge pop">Ⅵ</div>
+  <div class="reveal r2 case-tag">CHAPTER VI</div>
+  <div class="reveal r3 case-title">채무관계자</div>
+  <div class="reveal r4 case-meta">채무자 · 연대채무자 · 피성년후견인 · 법인</div>
+  <div class="case-progress-dots">
+    <span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span>
+  </div>
+</div>
+`);
+
+addSlide('Ch.VI OX 워밍업', `
+<div class="slide-inner vcenter">
+  <div style="font-size:4.5rem;text-align:center;margin-bottom:1rem;">👥</div>
+  <div class="reveal r1 eyebrow" style="text-align:center;">OX QUIZ WARM-UP</div>
+  <div class="reveal r2 h1" style="text-align:center;margin-bottom:1rem;">채무관계자</div>
+  <div class="reveal r3 body-text" style="text-align:center;margin-bottom:1.5rem;">채무자부터 법인까지 — 각 관계자의 법적 지위와 여신 거래에서의 역할</div>
+  <div class="reveal r4 key-line">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 핵심 질문</span>
+    연대채무자와 보증인의 차이는? 피성년후견인은 채무자가 될 수 있나?
+  </div>
+</div>
+`);
+addCaseQuiz(6);
+
+// 채무자·연대채무자
+addSlide('Ch.VI 채무자·연대채무자', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.VI — 핵심 용어 ①</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">채무자(債務者)와 연대채무자(連帶債務者)</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">👤</div>
+      <div>
+        <div class="term-name">채무자(債務者) — "빚 갚을 의무를 지닌 사람"</div>
+        <div class="term-desc">금융기관으로부터 대출을 받아 원금과 이자를 상환해야 할 의무를 지닌 당사자. 제6조에 따라 연체대출 채무자·피한정후견인·피성년후견인 등은 채무자 또는 보증인이 될 수 없음 (단, 예외 규정 있음)</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">👥</div>
+      <div>
+        <div class="term-name">연대채무자(連帶債務者) — 連帶(연대) + 債務者 → "함께 연대하여 빚 갚을 의무를 지닌 사람"</div>
+        <div class="term-desc">주채무자와 동일한 채무를 처음부터 부담하는 자. 채권자는 연대채무자 중 누구에게든 전액 청구 가능</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 warn-box">
+    <div class="warn-title">⚠️ 연대채무자 vs 보증인</div>
+    <div class="body-text">보증인은 주채무자 불이행 시 책임지지만, 연대채무자는 처음부터 주채무자와 동등한 책임을 집니다.</div>
+  </div>
+</div>
+`);
+
+// 피성년후견인·법인
+addSlide('Ch.VI 피성년후견인·법인', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.VI — 핵심 용어 ②</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">피성년후견인(被成年後見人)과 법인(法人)</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">⚖️</div>
+      <div>
+        <div class="term-name">피성년후견인(被成年後見人) — "성년후견을 받는 사람"</div>
+        <div class="term-desc">정신적 제약으로 사무를 처리할 능력이 지속적으로 결여되어 법원으로부터 성년후견 개시 심판을 받은 성인. 제6조 제5호에 따라 여신 거래에서 채무자·보증인 자격이 제한됨</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="term-card">
+      <div class="term-icon">🏢</div>
+      <div>
+        <div class="term-name">법인(法人) — 法(법 법) + 人(사람 인) → "법으로 사람처럼 인정받은 존재"</div>
+        <div class="term-desc">자연인이 아닌 법률에 의해 권리·의무의 주체로 인정된 단체 또는 재산. 주식회사·협동조합·재단법인 등. 법인 대출 시 법인등기부등본·정관·이사회 의사록 등 확인 필요</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r5 ok-box">
+    <div class="ok-title">✅ 법인 여신 실무 포인트</div>
+    <div class="body-text">대표자·실질 지배자에 대해서는 기준에 따라 특정근보증 또는 한정근보증 입보를 검토. 보증 입보 여부는 관련 규정 및 예외 기준에 따라 결정됨.</div>
+  </div>
+</div>
+`);
+
+// =================== CH.VII ===================
+addSlide('Ch.VII 여신 절차', `
+<div class="case-cover" style="background:linear-gradient(135deg,#FFF8E1 0%,#fff 100%);">
+  <div class="bg-deco float" style="width:26rem;height:26rem;top:-8%;right:-5%;background:radial-gradient(circle,rgba(245,166,35,0.12),transparent 70%);"></div>
+  <div class="reveal r1 case-num-huge pop" style="color:var(--amber-strong);">Ⅶ</div>
+  <div class="reveal r2 case-tag" style="color:var(--amber-strong);">CHAPTER VII</div>
+  <div class="reveal r3 case-title">여신 절차</div>
+  <div class="reveal r4 case-meta">신용조사 · 여신심사 · 채권보전 · 자금용도</div>
+</div>
+`);
+
+// 신용조사
+addSlide('Ch.VII 신용조사', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.VII — 신용조사(信用調査)</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">대출 심사의 첫 단계</div>
+  <div class="reveal r3">
+    <div class="term-card">
+      <div class="term-icon">🔍</div>
+      <div>
+        <div class="term-name">신용조사(信用調査) — 信用(신용) + 調査(조사) → "신용 상태를 살펴봄"</div>
+        <div class="term-desc">대출 신청자의 상환 능력과 신용을 종합적으로 검토하는 절차. CB(신용조회) 조회·재산 확인·소득 확인 등을 포함</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r4">
+    <div class="card">
+      <div class="h3" style="margin-bottom:1rem;">신용조사의 주요 항목</div>
+      <div class="check-item"><div class="check-num">1</div><div class="check-text"><b>CB 조회</b> — 신용점수, 연체이력, 대출현황 파악</div></div>
+      <div class="check-item"><div class="check-num">2</div><div class="check-text"><b>소득 확인</b> — 근로소득원천징수영수증, 사업소득 확인서 등</div></div>
+      <div class="check-item"><div class="check-num">3</div><div class="check-text"><b>재산 확인</b> — 부동산 등기부등본, 금융자산 현황</div></div>
+      <div class="check-item"><div class="check-num">4</div><div class="check-text"><b>활용</b> — 여신심사의 기초 자료, 대출 가능 여부·한도·금리 결정에 반영</div></div>
+    </div>
+  </div>
+</div>
+`);
+
+// 여신 절차 흐름
+addSlide('Ch.VII 여신 절차 흐름', `
+<div class="slide-inner">
+  <div class="reveal r1 eyebrow">📖 Ch.VII — 여신 절차 전체 흐름</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.25rem;">신청부터 사후관리까지</div>
+  <div class="reveal r3">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="body-text"><b>① 신용조사(信用調査)</b> — CB 조회·소득·재산 확인. 대출 심사의 첫 단계</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="body-text"><b>② 여신심사(與信審査)</b> — 상환 능력·신용·담보·자금용도 종합 심사. 승인·조건부승인·거절 결정</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="body-text"><b>③ 채권보전(債權保全)</b> — 근저당 설정·보증·보증서 등 담보 취득. 제10조: 적절한 채권보전 조치 취해야 함</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="body-text"><b>④ 자금용도(資金用途)</b> — 대출 목적 확인. 운전자금·시설자금·가계자금 등 용도 확인 및 사후 점검</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="body-text"><b>⑤ 사후관리(事後管理)</b> — 연체 모니터링·기한이익상실·대손상각·변제충당 등</div>
+      </div>
+    </div>
+  </div>
+</div>
+`);
+
+// Ch.VIII~X 미리보기
+addSlide('Ch.VIII~X 미리보기', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">🗺️ 다음 학습 — Ch.VIII~X 미리보기</div>
+  <div class="reveal r2 h2" style="margin-bottom:1.5rem;">별도 교재로 심화 학습</div>
+  <div class="reveal r3 col2">
+    <div class="card" style="border-left:4px solid var(--amber-strong);">
+      <div class="h3" style="margin-bottom:0.75rem;">📊 Ch.VIII 사후관리</div>
+      <div class="body-text">연체·기한이익상실·대손상각·변제충당</div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--blue-primary);">
+      <div class="h3" style="margin-bottom:0.75rem;">🎯 Ch.IX 신용평가</div>
+      <div class="body-text">CSS·개인신용평점·금리인하요구권·CB</div>
+    </div>
+  </div>
+  <div class="reveal r4 card" style="border-left:4px solid var(--green-strong);margin-top:0rem;">
+    <div class="h3" style="margin-bottom:0.75rem;">🏭 Ch.X 기업여신</div>
+    <div class="body-text">운전자금·시설자금·동일인한도·재무제표 분석</div>
+  </div>
+  <div class="reveal r5 key-line" style="margin-top:1rem;">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 안내</span>
+    오늘 학습한 Ch.I~VII이 <b style="color:#9DC4FF;">기초 토대</b>입니다. Ch.VIII~X는 이 토대 위에서 심화됩니다.
+  </div>
+</div>
+`);
+
+// =================== 마무리 ===================
+// 핵심 요약 1/3
+addSlide('핵심 요약 1/3', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">📝 핵심 요약 · 1 / 3</div>
+  <div class="reveal r2 h1" style="margin-bottom:1.5rem;">Ch.I — Ch.II</div>
+  <div class="reveal r3 col2">
+    <div class="card" style="border-left:4px solid var(--blue-primary);">
+      <span class="badge badge-blue">Ch.I 여신 기초</span>
+      <div class="h3" style="margin:0.5rem 0;">여신 ⊃ 대출</div>
+      <div class="body-text">여신 = 대출+보증+할인 모두 포괄<br>채권(받을 권리) ↔ 채무(갚을 의무)</div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--amber-strong);">
+      <span class="badge badge-amber">Ch.II 상환방법</span>
+      <div class="h3" style="margin:0.5rem 0;">총 이자 크기</div>
+      <div class="body-text">일시상환 > 원리금균등 > 원금균등<br>한도거래 = 실사용액에만 이자</div>
+    </div>
+  </div>
+</div>
+`);
+
+// 핵심 요약 2/3
+addSlide('핵심 요약 2/3', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">📝 핵심 요약 · 2 / 3</div>
+  <div class="reveal r2 h1" style="margin-bottom:1.5rem;">Ch.III — Ch.IV</div>
+  <div class="reveal r3 col2">
+    <div class="card" style="border-left:4px solid var(--blue-primary);">
+      <span class="badge badge-blue">Ch.III 금리</span>
+      <div class="h3" style="margin:0.5rem 0;">최종금리 공식</div>
+      <div class="body-text">기준금리 + 가산금리 − 우대금리<br>연체는 다음날부터 / COFIX = 외부기준금리</div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--green-strong);">
+      <span class="badge badge-green">Ch.IV 담보</span>
+      <div class="h3" style="margin:0.5rem 0;">근저당 핵심</div>
+      <div class="body-text">근저당 = 현재+미래 채권 담보<br>채권최고액 = 대출금액의 120~130%</div>
+    </div>
+  </div>
+</div>
+`);
+
+// 핵심 요약 3/3
+addSlide('핵심 요약 3/3', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">📝 핵심 요약 · 3 / 3</div>
+  <div class="reveal r2 h1" style="margin-bottom:1.5rem;">Ch.V — Ch.VII</div>
+  <div class="reveal r3 col2">
+    <div class="card" style="border-left:4px solid var(--amber-strong);">
+      <span class="badge badge-amber">Ch.V 보증</span>
+      <div class="h3" style="margin:0.5rem 0;">항변권 유무</div>
+      <div class="body-text">일반보증 = 항변권 있음<br>연대보증 = 항변권 없음 (즉시 청구 가능)<br>구상권 = 대신 갚고 돌려받을 권리</div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--blue-primary);">
+      <span class="badge badge-blue">Ch.VI~VII</span>
+      <div class="h3" style="margin:0.5rem 0;">채무관계자·절차</div>
+      <div class="body-text">연대채무자 = 처음부터 동등한 의무<br>피성년후견인 = 채무자 자격 제한<br>법인 = 법률상 권리의무 주체</div>
+    </div>
+  </div>
+</div>
+`);
+
+// 자기점검 체크리스트 1/2
+addSlide('자기점검 1/2', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">✅ 자기점검 · 1 / 2</div>
+  <div class="reveal r2 h2" style="margin-bottom:1rem;">오늘 학습 내용 점검</div>
+  <div class="reveal r3 card">
+    <div class="check-item"><div class="check-num">1</div><div class="check-text">여신과 대출의 차이를 설명할 수 있다</div></div>
+    <div class="check-item"><div class="check-num">2</div><div class="check-text">채권과 채무를 구분하여 정의할 수 있다</div></div>
+    <div class="check-item"><div class="check-num">3</div><div class="check-text">일시상환·원금균등·원리금균등의 총 이자 크기 순서를 안다</div></div>
+    <div class="check-item"><div class="check-num">4</div><div class="check-text">최종 대출금리 산출 공식을 말할 수 있다</div></div>
+    <div class="check-item"><div class="check-num">5</div><div class="check-text">한도거래에서 이자는 어떻게 부과되는지 설명할 수 있다</div></div>
+  </div>
+</div>
+`);
+
+// 자기점검 체크리스트 2/2
+addSlide('자기점검 2/2', `
+<div class="slide-inner vcenter">
+  <div class="reveal r1 eyebrow">✅ 자기점검 · 2 / 2</div>
+  <div class="reveal r2 h2" style="margin-bottom:1rem;">오늘 학습 내용 점검</div>
+  <div class="reveal r3 card">
+    <div class="check-item"><div class="check-num">6</div><div class="check-text">근저당과 일반 저당권의 차이를 설명할 수 있다</div></div>
+    <div class="check-item"><div class="check-num">7</div><div class="check-text">채권최고액이 대출금액보다 높게 설정되는 이유를 안다</div></div>
+    <div class="check-item"><div class="check-num">8</div><div class="check-text">일반 보증인과 연대보증인의 항변권 차이를 설명할 수 있다</div></div>
+    <div class="check-item"><div class="check-num">9</div><div class="check-text">피성년후견인이 채무자 자격이 제한되는 이유를 안다</div></div>
+    <div class="check-item"><div class="check-num">10</div><div class="check-text">여신 절차(신용조사→심사→채권보전→자금용도→사후관리)를 순서대로 말할 수 있다</div></div>
+  </div>
+</div>
+`);
+
+// 마치며
+addSlide('마치며', `
+<div class="slide-inner vcenter">
+  <div style="font-size:5rem;text-align:center;margin-bottom:1rem;">🎓</div>
+  <div class="reveal r1 key-line" style="text-align:center;">
+    <span class="quote-mark">"</span>
+    <span class="label">📌 오늘의 핵심</span>
+    용어의 <b style="color:#9DC4FF;">한자 의미</b>를 이해하면, 규정 조문과 실무가 자연스럽게 연결됩니다.<br>여신(與信) — 신용을 <b style="color:#9DC4FF;">주는</b> 모든 행위가 여신입니다.
+  </div>
+  <div class="reveal r2 col2" style="margin-top:1.5rem;">
+    <div class="term-card">
+      <div class="term-icon">📚</div>
+      <div>
+        <div class="term-name">교재 안내</div>
+        <div class="term-desc">오늘 학습: Ch.I~VII<br>다음 교재: Ch.VIII~X<br>(사후관리·신용평가·기업여신)</div>
+      </div>
+    </div>
+    <div class="term-card">
+      <div class="term-icon">🎯</div>
+      <div>
+        <div class="term-name">학습 대상</div>
+        <div class="term-desc">금융기관 여신 업무 담당자<br>신입 창구 직원<br>여신 실무 재교육 대상자</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal r3" style="text-align:center;margin-top:1.5rem;">
+    <button class="reveal-btn" onclick="goTo(0)">🔄 처음부터 다시 보기</button>
+  </div>
+</div>
+`);
+
+// =================== APP ENGINE ===================
+appEl = document.getElementById('app');
+const totalSlides = SLIDES.length;
+let currentIdx = 0;
+
+let slideEls = [];
+let built = false;
+
+function buildSlidesOnce() {
+  const progressWrap = appEl.querySelector('.progress-wrap');
+  SLIDES.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'slide';
+    div.innerHTML = s.html;
+    appEl.insertBefore(div, progressWrap);
+    slideEls.push(div);
+  });
+  built = true;
+}
+
+function render() {
+  if (!built) buildSlidesOnce();
+
+  slideEls.forEach((el, i) => {
+    if (i === currentIdx) el.classList.add('active');
+    else el.classList.remove('active');
+  });
+
+  document.getElementById('progressBar').style.width = ((currentIdx + 1) / totalSlides * 100) + '%';
+  document.getElementById('navCounter').textContent = (currentIdx + 1) + ' / ' + totalSlides;
+  document.getElementById('navSection').textContent = SLIDES[currentIdx].section;
+
+  buildToc();
+
+  const active = slideEls[currentIdx];
+  if (active) {
+    activeSlide = active;
+    // reveal 애니메이션 재생: r클래스 재적용
+    active.querySelectorAll('.reveal').forEach(r => {
+      r.style.animation = 'none';
+      void r.offsetWidth;
+      r.style.animation = '';
+    });
+    setTimeout(() => fitActive(active), 60);
+  }
+}
+
+function buildToc() {
+  const tocList = document.getElementById('tocList');
+  tocList.innerHTML = '';
+  SLIDES.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'toc-item' + (i === currentIdx ? ' active' : '');
+    div.textContent = (i + 1) + '. ' + s.section;
+    div.onclick = () => { goTo(i); closeToc(); };
+    tocList.appendChild(div);
+  });
+}
+
+function fitActive(el) {
+  el.scrollTop = 0;
+  appEl.scrollTop = 0;
+  const inner = el.querySelector('.slide-inner, .case-cover');
+  if (!inner) return;
+  inner.style.transform = '';
+  if (inner.classList.contains('case-cover')) return;
+  const prevFlex = inner.style.flex;
+  const prevAlignSelf = inner.style.alignSelf;
+  const prevHeight = inner.style.height;
+  inner.style.flex = '0 0 auto';
+  inner.style.alignSelf = 'flex-start';
+  inner.style.height = 'auto';
+  const avail = el.clientHeight - 150;
+  const needed = inner.scrollHeight;
+  const isVcenter = inner.classList.contains('vcenter');
+  if (needed > avail) {
+    if (!isVcenter) {
+      inner.style.flex = prevFlex;
+      inner.style.alignSelf = prevAlignSelf;
+      inner.style.height = prevHeight;
+      el.classList.remove('center-content');
+    } else {
+      el.classList.add('center-content');
+    }
+    const scale = Math.max(0.62, avail / needed);
+    inner.style.transformOrigin = isVcenter ? 'center center' : 'top center';
+    inner.style.transform = 'scale(' + scale + ')';
+  } else {
+    inner.style.flex = prevFlex;
+    inner.style.alignSelf = prevAlignSelf;
+    inner.style.height = prevHeight;
+    if (needed < avail * 0.97) {
+      el.classList.add('center-content');
+    } else {
+      el.classList.remove('center-content');
+    }
+  }
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= totalSlides) return;
+  currentIdx = idx;
+  render();
+}
+function next() { goTo(currentIdx + 1); }
+function prev() { goTo(currentIdx - 1); }
+
+// OX 인터랙션
+window.answerOX = function(globalIdx, userAnswer) {
+  if (quizAnswered[globalIdx]) return;
+  quizAnswered[globalIdx] = true;
+
+  const q = OX_QUIZ[globalIdx];
+  const isCorrect = (userAnswer === q.a);
+  const activeEl = appEl.querySelector('.slide.active');
+  if (!activeEl) return;
+
+  const oBtn = activeEl.querySelector('.o-btn');
+  const xBtn = activeEl.querySelector('.x-btn');
+  const fb   = activeEl.querySelector('#fb-' + globalIdx);
+
+  const clickedBtn = userAnswer ? oBtn : xBtn;
+  const otherBtn   = userAnswer ? xBtn : oBtn;
+
+  if (isCorrect) {
+    clickedBtn.classList.add('correct');
+    spawnConfetti();
+  } else {
+    clickedBtn.classList.add('wrong');
+    otherBtn.classList.add('correct');
+  }
+  otherBtn.style.opacity = isCorrect ? '0.35' : '';
+
+  if (fb) {
+    fb.textContent = (isCorrect ? '✅ 정답! ' : '❌ 오답! ') + q.exp;
+    fb.className = 'quiz-feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  }
+
+  if (document.activeElement?.blur) document.activeElement.blur();
+  setTimeout(() => {
+    if (activeEl) activeEl.scrollTop = 0;
+    appEl.scrollTop = 0;
+    fitActive(activeEl);
+  }, 30);
+};
+
+window.toggleAnswer = function(id) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  panel.classList.toggle('show');
+  if (document.activeElement?.blur) document.activeElement.blur();
+  const activeEl = appEl.querySelector('.slide.active');
+  setTimeout(() => {
+    if (activeEl) activeEl.scrollTop = 0;
+    appEl.scrollTop = 0;
+    fitActive(activeEl);
+  }, 30);
+};
+
+// Confetti
+function spawnConfetti() {
+  const colors = ['#3182F6','#0AC282','#F5A623','#F04452','#9DC4FF'];
+  for (let i = 0; i < 22; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.cssText = `
+      left:${20 + Math.random()*60}%;
+      top:${20 + Math.random()*40}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      transform:rotate(${Math.random()*360}deg);
+      animation:confettiFall ${0.8+Math.random()*0.7}s ease-out ${Math.random()*0.3}s forwards;
+    `;
+    appEl.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+}
+
+// Confetti keyframe
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+@keyframes confettiFall {
+  0%   { transform:translateY(0) rotate(0deg); opacity:1; }
+  100% { transform:translateY(12rem) rotate(${Math.random()*720}deg); opacity:0; }
+}`;
+document.head.appendChild(styleEl);
+
+// TOC
+document.getElementById('navMid').addEventListener('click', () => {
+  document.getElementById('tocOverlay').classList.toggle('open');
+});
+document.getElementById('tocOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeToc();
+});
+function closeToc() { document.getElementById('tocOverlay').classList.remove('open'); }
+
+// NAV BUTTONS
+document.getElementById('btnNext').addEventListener('click', next);
+document.getElementById('btnPrev').addEventListener('click', prev);
+
+// KEYBOARD
+document.addEventListener('keydown', e => {
+  const tag = document.activeElement?.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  switch(e.key) {
+    case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); next(); break;
+    case 'ArrowLeft': case 'Backspace': case 'PageUp': e.preventDefault(); prev(); break;
+    case 'Escape': closeToc(); break;
+    case 'Home': goTo(0); break;
+    case 'End': goTo(totalSlides-1); break;
+    case 'f': case 'F': toggleFullscreen(); break;
+  }
+});
+
+// TOUCH SWIPE
+let touchStartX = 0;
+appEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+appEl.addEventListener('touchend', e => {
+  const dx = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) { dx > 0 ? next() : prev(); }
+});
+
+// FULLSCREEN
+function toggleFullscreen() {
+  const docEl = document.documentElement;
+  if (!document.fullscreenElement) {
+    (docEl.requestFullscreen || docEl.webkitRequestFullscreen)?.call(docEl);
+  } else {
+    (document.exitFullscreen || document.webkitExitFullscreen)?.call(document);
+  }
+}
+appEl.addEventListener('dblclick', e => {
+  if (!e.target.closest('button')) toggleFullscreen();
+});
+
+// RESIZE
+window.addEventListener('resize', () => {
+  const activeEl = appEl.querySelector('.slide.active');
+  if (activeEl) fitActive(activeEl);
+});
+
+// INIT
+render();
+</script>
+</body>
+</html>
